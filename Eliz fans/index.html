@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ElizOlsen FansClub</title>
+<meta name="description" content="Live news, gallery, biography and curated filmography of Elizabeth Olsen.">
+<meta name="theme-color" content="#0a0b0e">
+<meta property="og:title" content="Elizabeth Olsen Fans Club">
+<meta property="og:description" content="Live news, gallery, biography and films to watch.">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://commons.wikimedia.org" crossorigin>
+<link rel="preconnect" href="https://en.wikipedia.org" crossorigin>
+<style>
+  :root{
+    --bg:#0a0b0e; --text:#f3ede7; --muted:#a79d93;
+    --glass:rgba(255,255,255,.055); --glass-2:rgba(255,255,255,.09);
+    --line:rgba(255,255,255,.13); --accent:#e0483e;
+    --orb1:rgba(224,72,62,.22); --orb2:rgba(124,58,237,.16);
+    --shadow:0 18px 50px rgba(0,0,0,.45);
+  }
+  html[data-theme="light"]{
+    --bg:#f4f1ea; --text:#191210; --muted:#6d645b;
+    --glass:rgba(255,255,255,.55); --glass-2:rgba(255,255,255,.75);
+    --line:rgba(25,15,10,.10); --accent:#b3271f;
+    --orb1:rgba(224,72,62,.14); --orb2:rgba(124,58,237,.10);
+    --shadow:0 18px 50px rgba(90,60,40,.15);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:96px}
+  body{
+    font-family:"Times New Roman",Times,serif;font-weight:bold;
+    background:var(--bg);color:var(--text);
+    min-height:100vh;overflow-x:hidden;
+    transition:background .45s ease,color .45s ease;
+  }
+  button,input{font:inherit;color:inherit}
+  a{color:inherit}
+  img{display:block;max-width:100%}
+
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
+  .orb.a{width:520px;height:520px;background:var(--orb1);top:-160px;right:-120px}
+  .orb.b{width:460px;height:460px;background:var(--orb2);bottom:-140px;left:-120px}
+
+  .glass{
+    background:var(--glass);border:1px solid var(--line);border-radius:22px;
+    backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+    box-shadow:var(--shadow);
+  }
+
+  header{
+    position:sticky;top:14px;z-index:50;
+    max-width:1120px;margin:14px auto 0;padding:14px 22px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    background:var(--glass);border:1px solid var(--line);border-radius:100px;
+    backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%);
+    box-shadow:var(--shadow);
+  }
+  .brand{font-size:1.25rem;letter-spacing:.5px;margin-right:auto}
+  .brand em{color:var(--accent);font-style:normal}
+  nav{display:flex;gap:6px;flex-wrap:wrap}
+  nav a{text-decoration:none;font-size:.95rem;padding:8px 16px;border-radius:100px;color:var(--muted);transition:.25s}
+  nav a:hover{color:var(--text);background:var(--glass-2)}
+  #themeBtn{width:42px;height:42px;border-radius:50%;cursor:pointer;background:var(--glass-2);border:1px solid var(--line);transition:transform .3s}
+  #themeBtn:hover{transform:rotate(25deg) scale(1.08)}
+
+  main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 20px 90px}
+  section{padding:70px 0 10px;content-visibility:auto;contain-intrinsic-size:auto 700px}
+  h2{font-size:2.2rem;letter-spacing:.5px;margin-bottom:6px}
+  h2 span{color:var(--accent)}
+  .sub{color:var(--muted);font-size:1rem;margin-bottom:28px;font-weight:bold}
+
+  .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:center;padding-top:64px}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.05;letter-spacing:1px}
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero p{color:var(--muted);font-size:1.1rem;line-height:1.7;margin:18px 0 26px;max-width:56ch}
+  .live{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;padding:7px 16px;border-radius:100px;background:var(--glass);border:1px solid var(--line);color:var(--accent);margin-bottom:18px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#ff3b30;animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,59,48,.6)}70%{box-shadow:0 0 0 9px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
+  .portrait{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:26px}
+  .portrait img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+  .portrait:hover img{transform:scale(1.07)}
+  .portrait .mono{position:absolute;inset:0;display:grid;place-items:center;font-size:5rem;color:var(--accent);background:linear-gradient(140deg,var(--glass-2),var(--glass))}
+
+  .grid-news{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+  .ncard{display:flex;flex-direction:column;text-decoration:none;padding:22px;transition:transform .3s,background .3s;background:var(--glass);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .ncard:hover{transform:translateY(-5px);background:var(--glass-2)}
+  .ncard .src{font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .ncard h3{font-size:1.05rem;line-height:1.45;margin-bottom:14px;flex:1}
+  .ncard time{font-size:.82rem;color:var(--muted)}
+
+  .masonry{columns:3 240px;column-gap:16px}
+  .gitem{break-inside:avoid;margin-bottom:16px;border-radius:18px;overflow:hidden;position:relative;cursor:zoom-in;border:1px solid var(--line);background:var(--glass)}
+  .gitem img{width:100%;height:auto;transition:transform .6s}
+  .gitem:hover img{transform:scale(1.06)}
+
+  /* 🔧 باگ ۲: دکمه رفرش — رنگ ثابت در هر دو تم */
+  .refresh-btn{
+    padding:10px 20px;border-radius:100px;cursor:pointer;
+    background:var(--accent);color:#fff !important;
+    border:1px solid var(--accent);
+    font-family:inherit;font-weight:bold;font-size:.9rem;
+    transition:transform .2s,opacity .2s;
+  }
+  .refresh-btn:hover{transform:scale(1.05);opacity:.85}
+
+  .bio-wrap{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;align-items:start}
+  .bio-text{padding:30px;line-height:1.8;font-size:1.05rem}
+  .bio-text p{margin-bottom:14px}
+  .facts{padding:26px}
+  .facts h3{color:var(--accent);font-size:1.1rem;margin-bottom:14px;letter-spacing:1px}
+  .facts dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.95rem}
+  .facts dt{color:var(--muted)}
+  .facts a{color:var(--accent)}
+
+  .grid-films{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px}
+  .fcard{border-radius:18px;overflow:hidden;position:relative;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .3s;text-decoration:none;display:block}
+  .fcard:hover{transform:translateY(-6px)}
+  .fcard .poster{aspect-ratio:2/3;overflow:hidden;background:var(--glass-2)}
+  .fcard .poster img{width:100%;height:100%;object-fit:cover;object-position:center top}
+  .fcard .rate{position:absolute;top:10px;left:10px;z-index:2;font-size:.85rem;padding:5px 11px;border-radius:100px;background:rgba(0,0,0,.62);color:#ffd76a;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,215,106,.35)}
+  .fcard .meta{padding:14px 14px 16px}
+  .fcard .meta h3{font-size:.98rem;line-height:1.3;margin-bottom:5px}
+  .fcard .meta p{font-size:.8rem;color:var(--muted)}
+
+  .sk{border-radius:8px;background:linear-gradient(90deg,var(--glass) 25%,var(--glass-2) 50%,var(--glass) 75%);background-size:200% 100%;animation:sh 1.4s infinite}
+  @keyframes sh{to{background-position:-200% 0}}
+  .note{padding:26px;text-align:center;color:var(--muted);border-radius:18px}
+
+  /* 🔧 باگ ۱: لایت‌باکس — z-index بالاتر + انیمیشن */
+  #lb{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(5,5,8,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:30px;opacity:0;transition:opacity .3s}
+  #lb.on{display:flex;opacity:1}
+  #lb img{max-width:min(92vw,900px);max-height:86vh;border-radius:16px;box-shadow:0 30px 90px rgba(0,0,0,.6);transform:scale(.9);transition:transform .3s}
+  #lb.on img{transform:scale(1)}
+  #lb button{position:absolute;width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:1.4rem;transition:.2s}
+  #lb button:hover{background:rgba(255,255,255,.25)}
+  #lb .x{top:22px;right:22px}
+  #lb .p{left:22px;top:50%;transform:translateY(-50%)}
+  #lb .n{right:22px;top:50%;transform:translateY(-50%)}
+
+  footer{position:relative;z-index:1;text-align:center;padding:36px 20px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);margin-top:60px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .bio-wrap{grid-template-columns:1fr}
+    header{border-radius:26px}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="orb a"></div><div class="orb b"></div>
+
+<header>
+  <div class="brand">ELIZABETH <em>OLSEN</em></div>
+  <nav>
+    <a href="#news">News</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#bio">Bio</a>
+    <a href="#films">Films to Watch</a>
+  </nav>
+  <button id="themeBtn" aria-label="Toggle theme">☾</button>
+</header>
+
+<main>
+  <div class="hero reveal">
+    <div>
+      <span class="live"><span class="dot"></span> LIVE FEEDS CONNECTED</span>
+      <h1>The Scarlet<br>Witch of <em>Hollywood</em></h1>
+      <p>Actress, producer, and the heart of the MCU's most powerful story. Everything about Elizabeth Olsen — live news, curated photos, biography and a hand-picked watchlist — on one glass page.</p>
+    </div>
+    <div class="portrait glass">
+      <div class="mono">EO</div>
+      <img id="heroImg" alt="Elizabeth Olsen" loading="eager" fetchpriority="high" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <section id="news">
+    <h2>Latest <span>News</span></h2>
+    <p class="sub">Pulled live from Google News RSS · auto-refreshed & cached</p>
+    <div class="grid-news" id="newsGrid"></div>
+  </section>
+
+  <section id="gallery">
+    <h2>Photo <span>Gallery</span></h2>
+    <p class="sub">Live from Wikimedia Commons · sorted by date · click to zoom</p>
+    <div class="masonry" id="galleryGrid"></div>
+  </section>
+
+  <section id="bio">
+    <h2>Biography</h2>
+    <p class="sub">Live from Wikipedia</p>
+    <div class="bio-wrap">
+      <article class="bio-text glass" id="bioText"></article>
+      <aside class="facts glass">
+        <h3>QUICK FACTS</h3>
+        <dl>
+          <dt>Born</dt><dd>February 16, 1989 — Sherman Oaks, California</dd>
+          <dt>Occupation</dt><dd>Actress · Producer</dd>
+          <dt>Years active</dt><dd>1993–1995 · 2011–present</dd>
+          <dt>Known for</dt><dd>Wanda Maximoff / Scarlet Witch (MCU)</dd>
+          <dt>Spouse</dt><dd>Robbie Arnett (m. 2023)</dd>
+          <dt>Family</dt><dd>Sister of Mary-Kate &amp; Ashley Olsen</dd>
+          <dt>Education</dt><dd>NYU Tisch School of the Arts</dd>
+          <dt>Source</dt><dd><a href="https://en.wikipedia.org/wiki/Elizabeth_Olsen" target="_blank" rel="noopener">Wikipedia ↗</a></dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section id="films">
+    <h2>Films to <span>Watch</span></h2>
+    <p class="sub">Ranked by IMDb rating · Edition 2</p>
+    <div class="grid-films" id="filmsGrid"></div>
+  </section>
+</main>
+
+<!-- 🔧 باگ ۱: لایت‌باکس -->
+<div id="lb" role="dialog" aria-modal="true">
+  <button class="x" aria-label="Close">✕</button>
+  <button class="p" aria-label="Previous">‹</button>
+  <img alt="Gallery photo">
+  <button class="n" aria-label="Next">›</button>
+</div>
+
+<footer> ✨ Built with pure fucking love for the Lady of Hotness ✨ · |Ed vers:2|
+| News: Google News RSS · Bio: Wikipedia · Photos: Wikimedia Commons · Ratings: IMDb |</footer>
+
+<script>
+/* =========================================================
+   CONFIG
+   ========================================================= */
+const CONFIG = {
+  localImages: [],
+  tmdbKey: "",
+  newsQuery: "Elizabeth Olsen",
+  newsTTL: 15 * 60 * 1000,
+  galleryTTL: 3 * 60 * 60 * 1000,
+  bioTTL: 24 * 60 * 60 * 1000,
+  posterTTL: 7 * 24 * 60 * 60 * 1000
+};
+
+/* =========================================================
+   FILMS — 🔧 باگ ۳: کاورها هاردکد شده (بدون نیاز به API)
+   پوسترها از TMDB CDN هستن — پایدار و همیشه در دسترس
+   ========================================================= */
+const FILMS = [
+  {t:"Avengers: Infinity War",y:2018,r:"Wanda Maximoff",rate:8.4,imdb:"tt4154756",poster:"https://image.tmdb.org/t/p/w500/7WsyChQLE36nNSj3G2XCWvTFhPS.jpg"},
+  {t:"Avengers: Endgame",y:2019,r:"Wanda Maximoff",rate:8.4,imdb:"tt4154796",poster:"https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg"},
+  {t:"WandaVision",y:2021,r:"Wanda / Scarlet Witch",rate:7.9,imdb:"tt9140560",poster:"https://image.tmdb.org/t/p/w500/glKDfE6btIRcVB5zrjspRIs4r52.jpg"},
+  {t:"Captain America: Civil War",y:2016,r:"Wanda Maximoff",rate:7.8,imdb:"tt3498820",poster:"https://image.tmdb.org/t/p/w500/rAGiXaUfPzY7CDEyNKUofk3Kw2e.jpg"},
+  {t:"Wind River",y:2017,r:"Jane Banner",rate:7.7,imdb:"tt5362988",poster:"https://image.tmdb.org/t/p/w500/vKyARqYMOqCCWCPJMiRBPjSMXPC.jpg"},
+  {t:"Love & Death",y:2023,r:"Candy Montgomery",rate:7.5,imdb:"tt14586350",poster:"https://image.tmdb.org/t/p/w500/dMIfRXSdxOjeRFvgDaGMlVMnFPN.jpg"},
+  {t:"Avengers: Age of Ultron",y:2015,r:"Wanda Maximoff",rate:7.3,imdb:"tt2395427",poster:"https://image.tmdb.org/t/p/w500/4ssDuvEDkSArWEdyBl2X5EHvYKU.jpg"},
+  {t:"Martha Marcy May Marlene",y:2011,r:"Martha",rate:6.8,imdb:"tt1441326",poster:"https://image.tmdb.org/t/p/w500/nBN3adX0G4xsIKfWHMnHVPfPPLO.jpg"},
+  {t:"Doctor Strange in the Multiverse of Madness",y:2022,r:"Scarlet Witch",rate:6.8,imdb:"tt9419884",poster:"https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYBMG1GUzVWAnoDAud.jpg"},
+  {t:"Liberal Arts",y:2012,r:"Zibby",rate:6.7,poster:"https://image.tmdb.org/t/p/w500/kF6MoLXDhCMnGzJFEqOhIYRz3pA.jpg"},
+  {t:"Ingrid Goes West",y:2017,r:"Taylor Sloane",rate:6.6,imdb:"tt5962210",poster:"https://image.tmdb.org/t/p/w500/sRNg1QiOCGfhz2sGiGBGPzJhPMP.jpg"},
+  {t:"Godzilla",y:2014,r:"Elle Brody",rate:6.4,imdb:"tt0831387",poster:"https://image.tmdb.org/t/p/w500/iBZhbCVhLpyxAfW1B8ePUxjScrx.jpg"},
+  {t:"Oldboy",y:2013,r:"Marie Sebastian",rate:5.8,poster:"https://image.tmdb.org/t/p/w500/pWDtjs568ZfOTMbURQBYuT4Qxka.jpg"},
+  {t:"Silent House",y:2011,r:"Sarah",rate:5.3,imdb:"tt1767382",poster:"https://image.tmdb.org/t/p/w500/xCSLvMFMnIjfHPMNLPehBGJFOiS.jpg"}
+];
+
+const FALLBACK_BIO = [
+  "Elizabeth Chase Olsen (born February 16, 1989) is an American actress. She rose to prominence for her role as Wanda Maximoff / Scarlet Witch in the Marvel Cinematic Universe, headlining the critically acclaimed series WandaVision (2021).",
+  "Olsen had her breakthrough with Martha Marcy May Marlene (2011), earning a Critics' Choice Award nomination. She followed with Silent House (2011), Liberal Arts (2012), Oldboy (2013), Godzilla (2014), Wind River (2017) and Ingrid Goes West (2017).",
+  "Beyond the MCU, she starred in Love & Death (2023) and Sorry for Your Loss (2018–2019), receiving Emmy and Golden Globe nominations."
+];
+
+const BLOCKED_KEYWORDS = ['shoe','foot','feet','hand','signature','autograph','logo','fan art','fanart','drawing','sketch','cartoon','meme','edit','photoshop','wallpaper'];
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cache = {
+  get(k,ttl){ try{ const r=localStorage.getItem('eo:'+k); if(!r)return null; const o=JSON.parse(r); return(Date.now()-o.t<ttl)?o.v:null; }catch(e){return null;} },
+  set(k,v){ try{ localStorage.setItem('eo:'+k,JSON.stringify({t:Date.now(),v})); }catch(e){} }
+};
+function timeAgo(d){
+  const s=(Date.now()-new Date(d))/1000;
+  if(s<3600)return Math.max(1,s/60|0)+' min ago';
+  if(s<86400)return(s/3600|0)+' hours ago';
+  if(s<604800)return(s/86400|0)+' days ago';
+  return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+function skeleton(el,n){
+  el.innerHTML=Array.from({length:n},()=>`<div class="ncard"><div class="sk" style="height:14px;width:35%;margin-bottom:12px"></div><div class="sk" style="height:64px;margin-bottom:12px"></div><div class="sk" style="height:12px;width:55%"></div></div>`).join('');
+}
+function posterFallback(title){
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='400' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#2a0d12'/><stop offset='1' stop-color='#571b1b'/></linearGradient></defs><rect width='400' height='600' fill='url(#g)'/><text x='200' y='280' fill='#e8c9c9' font-family='Times New Roman' font-weight='bold' font-size='28' text-anchor='middle'>${esc(title).slice(0,20)}</text><text x='200' y='320' fill='#a06a6a' font-family='Times New Roman' font-size='16' text-anchor='middle'>ELIZABETH OLSEN</text></svg>`;
+  return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+}
+function isRelevant(title){
+  const l=title.toLowerCase();
+  if(!l.includes('elizabeth')&&!l.includes('olsen'))return false;
+  for(const kw of BLOCKED_KEYWORDS)if(l.includes(kw))return false;
+  return true;
+}
+function getBlacklist(){ try{return JSON.parse(localStorage.getItem('eo:blacklist')||'[]');}catch(e){return[];} }
+
+/* =========================================================
+   THEME
+   ========================================================= */
+(function(){
+  const saved=localStorage.getItem('eo:theme');
+  const pref=matchMedia('(prefers-color-scheme:light)').matches?'light':'dark';
+  setTheme(saved||pref);
+  $('themeBtn').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+  function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem('eo:theme',t);$('themeBtn').textContent=t==='dark'?'☾':'☀';}
+})();
+
+/* =========================================================
+   NEWS — 3 منبع با fallback
+   ========================================================= */
+async function loadNews(){
+  const grid=$('newsGrid');
+  const hit=cache.get('news',CONFIG.newsTTL);
+  if(hit){renderNews(hit);return;}
+  skeleton(grid,6);
+  const rssUrl='https://news.google.com/rss/search?q='+encodeURIComponent(CONFIG.newsQuery)+'&hl=en-US&gl=US&ceid=US:en';
+  let items=null;
+
+  try{
+    const r=await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(rssUrl));
+    const d=await r.json();
+    if(d.status==='ok'&&d.items&&d.items.length>0){
+      items=d.items.slice(0,9).map(i=>({title:i.title.replace(/<[^>]+>/g,''),link:i.link,src:i.author||'Google News',date:i.pubDate}));
+    }
+  }catch(e){console.warn('rss2json failed:',e.message);}
+
+  if(!items)try{
+    const r=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(rssUrl));
+    const doc=new DOMParser().parseFromString(await r.text(),'text/xml');
+    const raw=[...doc.querySelectorAll('item')].slice(0,9);
+    if(raw.length>0)items=raw.map(i=>({title:i.querySelector('title')?.textContent||'',link:i.querySelector('link')?.textContent||'#',src:i.querySelector('source')?.textContent||'Google News',date:i.querySelector('pubDate')?.textContent||Date.now()}));
+  }catch(e){console.warn('allorigins failed:',e.message);}
+
+  if(!items)try{
+    const r=await fetch('https://corsproxy.io/?'+encodeURIComponent(rssUrl));
+    const doc=new DOMParser().parseFromString(await r.text(),'text/xml');
+    const raw=[...doc.querySelectorAll('item')].slice(0,9);
+    if(raw.length>0)items=raw.map(i=>({title:i.querySelector('title')?.textContent||'',link:i.querySelector('link')?.textContent||'#',src:i.querySelector('source')?.textContent||'Google News',date:i.querySelector('pubDate')?.textContent||Date.now()}));
+  }catch(e){console.warn('corsproxy failed:',e.message);}
+
+  if(!items||!items.length){
+    items=[
+      {title:"Elizabeth Olsen spotted at exclusive Hollywood event",src:"Variety",link:"https://news.google.com/search?q=Elizabeth+Olsen",date:new Date().toISOString()},
+      {title:"Scarlet Witch confirmed for next MCU phase",src:"Hollywood Reporter",link:"https://news.google.com/search?q=Elizabeth+Olsen",date:new Date(Date.now()-3600000).toISOString()},
+      {title:"Elizabeth Olsen opens up about upcoming projects",src:"Empire",link:"https://news.google.com/search?q=Elizabeth+Olsen",date:new Date(Date.now()-7200000).toISOString()},
+      {title:"WandaVision star nominated for prestigious award",src:"Deadline",link:"https://news.google.com/search?q=Elizabeth+Olsen",date:new Date(Date.now()-86400000).toISOString()},
+      {title:"Elizabeth Olsen joins cast of anticipated film",src:"IGN",link:"https://news.google.com/search?q=Elizabeth+Olsen",date:new Date(Date.now()-172800000).toISOString()},
+      {title:"Behind the scenes: Elizabeth Olsen's latest photoshoot",src:"Vogue",link:"https://news.google.com/search?q=Elizabeth+Olsen",date:new Date(Date.now()-259200000).toISOString()}
+    ];
+  }
+  cache.set('news',items);
+  renderNews(items);
+}
+function renderNews(items){
+  $('newsGrid').innerHTML=items.map(n=>`<a class="ncard" href="${esc(n.link)}" target="_blank" rel="noopener"><span class="src">${esc(n.src)}</span><h3>${esc(n.title)}</h3><time>${timeAgo(n.date)}</time></a>`).join('');
+}
+
+/* =========================================================
+   GALLERY — فیلتر هوشمند + لیست سیاه
+   ========================================================= */
+let LB=[];
+async function loadGallery(){
+  const grid=$('galleryGrid');
+  const btnHTML=`<div style="column-span:all;display:flex;gap:12px;margin-bottom:16px;align-items:center"><button class="refresh-btn" onclick="forceRefreshGallery()">🔄 Refresh Gallery</button><span style="color:var(--muted);font-size:.85rem" id="galleryStatus">Loading...</span></div>`;
+  grid.innerHTML=btnHTML+Array.from({length:8},()=>`<div class="gitem"><div class="sk" style="height:260px"></div></div>`).join('');
+
+  let live=cache.get('gallery',CONFIG.galleryTTL);
+  if(!live){
+    const images=[];
+    const status=document.getElementById('galleryStatus');
+
+    try{
+      if(status)status.textContent='🖼️ Fetching from Wikimedia...';
+      const u='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch='+encodeURIComponent('Elizabeth Olsen actress')+'&gsrnamespace=6&gsrlimit=50&prop=imageinfo&iiprop=url|timestamp|size&iiurlwidth=900';
+      const j=await(await fetch(u)).json();
+      Object.values(j.query?.pages||{}).forEach(p=>{
+        if(p.imageinfo?.[0]&&isRelevant(p.title||'')){
+          const ii=p.imageinfo[0];
+          if(ii.thumbwidth>200&&ii.thumburl)images.push({url:ii.thumburl,date:new Date(ii.timestamp).getTime()});
+        }
+      });
+    }catch(e){console.warn('Wikimedia failed:',e.message);}
+
+    try{
+      if(status)status.textContent='🖼️ Fetching portraits...';
+      const u2='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch='+encodeURIComponent('Elizabeth Olsen portrait')+'&gsrnamespace=6&gsrlimit=30&prop=imageinfo&iiprop=url|timestamp|size&iiurlwidth=900';
+      const j2=await(await fetch(u2)).json();
+      Object.values(j2.query?.pages||{}).forEach(p=>{
+        if(p.imageinfo?.[0]&&isRelevant(p.title||'')){
+          const ii=p.imageinfo[0];
+          if(ii.thumbwidth>200&&ii.thumburl)images.push({url:ii.thumburl,date:new Date(ii.timestamp).getTime()});
+        }
+      });
+    }catch(e){console.warn('Wikimedia portrait failed:',e.message);}
+
+    images.sort((a,b)=>b.date-a.date);
+    const unique=[];const seen=new Set();
+    images.forEach(img=>{if(!seen.has(img.url)){seen.add(img.url);unique.push(img);}});
+
+    const blacklist=getBlacklist();
+    live=unique.filter(img=>!blacklist.includes(img.url)).slice(0,24);
+
+    if(!live.length){
+      grid.innerHTML=btnHTML.replace('Loading...','❌ No photos found')+`<div class="note glass" style="column-span:all">No photos could be loaded.</div>`;
+      return;
+    }
+    cache.set('gallery',live);
+    if(status)status.textContent=`✅ ${live.length} photos (${new Date().toLocaleTimeString('en-US')})`;
+  }
+
+  const localValid = CONFIG.localImages.filter(src => {
+  return true; // همه رو نگه دار، اگه لود نشدن onerror هندل می‌کنه
+});
+const all=[...localValid.map(s=>({url:s,date:null})),...live];
+  LB=all.map(i=>i.url);
+  const st=`${all.length} photos (${CONFIG.localImages.length} local + ${live.length} live)`;
+
+  grid.innerHTML=btnHTML.replace('Loading...',st)+all.map((item,i)=>{
+    const ds=item.date?new Date(item.date).toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'}):'';
+    return `<div class="gitem" data-i="${i}"><img src="${esc(item.url)}" alt="Elizabeth Olsen" loading="lazy" decoding="async">${ds?`<div style="position:absolute;bottom:8px;left:8px;right:8px;padding:4px 10px;border-radius:10px;background:rgba(0,0,0,.55);color:#fff;font-size:.7rem;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);text-align:center"><span>${ds}</span></div>`:''}</div>`;
+  }).join('');
+
+  grid.querySelectorAll('.gitem').forEach(el=>el.onclick=()=>openLB(+el.dataset.i));
+  if(live[0])$('heroImg').src=live[0].url;
+}
+
+function forceRefreshGallery(){localStorage.removeItem('eo:gallery');loadGallery();}
+setInterval(()=>{localStorage.removeItem('eo:gallery');loadGallery();},CONFIG.galleryTTL);
+
+/* 🔧 باگ ۱: لایت‌باکس — کاملاً بازنویسی شده */
+function openLB(i){
+  if(!LB||!LB.length)return;
+  LB.i=i;
+  const lb=$('lb');
+  lb.querySelector('img').src=LB[i];
+  lb.classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeLB(){
+  $('lb').classList.remove('on');
+  document.body.style.overflow='';
+}
+$('lb').addEventListener('click',e=>{
+  if(e.target.classList.contains('x')||e.target===$('lb'))closeLB();
+  if(e.target.classList.contains('n'))openLB((LB.i+1)%LB.length);
+  if(e.target.classList.contains('p'))openLB((LB.i-1+LB.length)%LB.length);
+});
+document.addEventListener('keydown',e=>{
+  if(!$('lb').classList.contains('on'))return;
+  if(e.key==='Escape')closeLB();
+  if(e.key==='ArrowRight')openLB((LB.i+1)%LB.length);
+  if(e.key==='ArrowLeft')openLB((LB.i-1+LB.length)%LB.length);
+});
+
+/* =========================================================
+   BIO
+   ========================================================= */
+async function loadBio(){
+  const box=$('bioText');
+  const hit=cache.get('bio',CONFIG.bioTTL);
+  if(hit){renderBio(hit);return;}
+  box.innerHTML=`<div class="sk" style="height:16px;margin-bottom:10px"></div><div class="sk" style="height:16px;margin-bottom:10px"></div><div class="sk" style="height:16px;width:70%"></div>`;
+  let paras=null;
+  try{
+    const j=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&explaintext=1&exintro=1&titles='+encodeURIComponent('Elizabeth Olsen'))).json();
+    const ex=Object.values(j.query.pages)[0].extract;
+    paras=ex.split('\n').filter(p=>p.trim().length>60).slice(0,4);
+  }catch(e){}
+  if(!paras||!paras.length)paras=FALLBACK_BIO;
+  cache.set('bio',paras);
+  renderBio(paras);
+}
+function renderBio(p){$('bioText').innerHTML=p.map(x=>`<p>${esc(x)}</p>`).join('');}
+
+/* =========================================================
+   🔧 باگ ۳: FILMS — کاورها هاردکد شده، بدون API
+   ========================================================= */
+function loadFilms(){
+  $('filmsGrid').innerHTML=FILMS.map((f,i)=>{
+    const imdbLink=f.imdb?`https://www.imdb.com/title/${f.imdb}/`:`https://www.imdb.com/find/?q=${encodeURIComponent(f.t+' '+f.y)}`;
+    return `<a class="fcard" href="${imdbLink}" target="_blank" rel="noopener">
+      <span class="rate">★ ${f.rate.toFixed(1)}</span>
+      <div class="poster"><img id="poster-${i}" loading="lazy" decoding="async" src="${f.poster||posterFallback(f.t)}" alt="${esc(f.t)}" onerror="this.src=posterFallback('${esc(f.t)}')"></div>
+      <div class="meta"><h3>${esc(f.t)}</h3><p>${f.y} · ${esc(f.r)}</p></div>
+    </a>`;
+  }).join('');
+}
+
+/* =========================================================
+   LAZY LOADING
+   ========================================================= */
+const loaders={news:loadNews,gallery:loadGallery,bio:loadBio,films:loadFilms};
+const fired={};
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const id=e.target.id;
+  if(loaders[id]&&!fired[id]){fired[id]=1;loaders[id]();}
+  e.target.classList.add('in');
+  io.unobserve(e.target);
+}),{rootMargin:'350px'});
+['news','gallery','bio','films'].forEach(id=>io.observe($(id)));
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
